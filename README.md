@@ -1,6 +1,13 @@
 # RISCV_OOO
 This repository contains the design and source code for an Out-of-Order (OOO) RISC-V implementation.
 
+# I-Instructions 
+<figure>
+  <img src="/figures/rv32i_base_insts.png" alt="Description" width="500"/>
+  <figcaption>RISC-V 32-bit I-instructions </figcaption>
+</figure>
+
+
 ## LUI (Load Upper Immediate)
 This instruction is used to build 32-bit contants.
 The LUI places the 20-bit immediate value in the top 20-bit of the destination register rd, filling the lowest 12-bits with zeros.
