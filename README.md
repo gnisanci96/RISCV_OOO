@@ -111,7 +111,7 @@ adding pre-decode at the front-end of the processor.
 ### Step8: Write instruction to the Reservation Station (For ALU instruction)
 - The Reservation station stores ALU opcode, rs1, rs2 values, their valid signals and ROB address for the instruction and ROB address for the rs1, rs2 values.
 - If rs1 or rs2 values of the instruction are not ready, reservation station wait for the value(s) to be brodcasted. So everytime there is a broadcast on the data bus, it compares the ROB address of the brodcasted value with the ROB address of the rs1 and rs2 values stored. If there is a match, it stores the value and sets the valid bit of the matching rs1 or rs2.
-- If the rs1 and rs2 values of the instruction are ready and the ALU control unit is not busy, the instruction is sent to the ALY control unit, which will perform the execution. This step is called DISPATCH.
+- If the rs1 and rs2 values of the instruction are ready and the ALU control unit is not busy, the instruction is sent to the ALU control unit, which will perform the execution. This step is called DISPATCH.
 - If there are multiple instructions ready to be dispatched, the reservation station chooses the instruction with the lowest index on the table.
 
 ### Step9: Execution and Broadcast for ALU instructions; - The executution unit takes N-CC to execute the instruction.
