@@ -72,6 +72,9 @@ For REM, the sign of the result equals the sign of the dividend. -For both signe
 2-) If the Page Table doesn't have the conversion, assign the next available Pysical Page number to the Virtual Page Number that caused to the PAGE FAULT.
 3-) Then update the TLB with the conversion, generate the pysical address, perform the L1 Tag check and continue the fetch process.
 
+<figure>
+  <img src="/figures/TLB_L1_L2_addr.png" alt="Description" width="500"/>
+</figure>
 
 # Instruction Queue Read / Decode / Renaming Stage
 ### Step1: Instruction Fetch Stage (All instructions)
@@ -151,9 +154,13 @@ For REM, the sign of the result equals the sign of the dividend. -For both signe
 
 TLB is a fully-associative cache memory that stores the recent virtual to physical memory transitions.
 It uses Pseudo-Least Recently Used Algorithm to decide the victim Cache.
-The Algorithms:
+# The Algorithms:
+
 1-) Least Recently Used Algorithm: The algorithm is used as a cache replacement and access grant algorithm in this project. In a 4-way set associative cache, we assign initial number so lines from 0 to 3. The line with number 0 is the least recently accessed line and line with number 3 is the most recently accessed line. So when we have to choose a valid line to replace, we choose the line that is least recently used. Everytime we access a cache line, we update its number to highest available number(3 in this case) and update the number of other lines accordingly. The figure below shows how to update the LRU counters.
 
+<figure>
+  <img src="/figures/LRU.png" alt="Description" width="500"/>
+</figure>
 
 
 2-) Pseudo Least Recently Used (PLRU) Algorithm: The LRU algoritm assigns log2(WayNumber) bit counters for each line, which is expensive. So we may instead use Pseudo Least Recently Used algorithm to save power and area.
@@ -162,3 +169,7 @@ Each Cache Line uses 1-bit intead of Log2(WayNumber) used in LRU algorithm.
 We initialize all the bits to 0.
 Each time the line is accessed, we set the bit to one.
 If all the bits becomes 1, we leave the last set bit as 1 and convert the other ones to 0.
+
+<figure>
+  <img src="/figures/PLRU.png" alt="Description" width="500"/>
+</figure>
