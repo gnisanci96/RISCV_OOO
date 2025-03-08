@@ -115,8 +115,8 @@ Immidiate Generation Unit takes the immediate type from the decoder and generate
 - If the rs1 and rs2 values of the instruction are ready and the ALU control unit is not busy, the instruction is sent to the ALU control unit, which will perform the execution. This step is called DISPATCH.
 - If there are multiple instructions ready to be dispatched, the reservation station chooses the instruction with the lowest index on the table.
 Future WORK: There are multiple algorithms to choose which instruction to send to the execution unit. Here are the 2 of the algorithms; 
-   1- Oldest-Ready First: Dispatches the oldest instruction that is ready to execute.
-   2- Critical Path First: Prioritizes instructions that are on the program’s critical path, reducing execution latency. It needs to trach the dependencies to the ROB of the instructions.
+   - Oldest-Ready First: Dispatches the oldest instruction that is ready to execute.
+   - Critical Path First: Prioritizes instructions that are on the program’s critical path, reducing execution latency. It needs to trach the dependencies to the ROB of the instructions.
 
 ### Step9: Execution and Broadcast for ALU instructions; - The executution unit takes N-CC to execute the instruction.
 - When the result is ready, it sets the broadcast_ready signal and wait for its turn to broadcast the result.
