@@ -25,22 +25,22 @@ Unconditional Jump instruction.
 Target address is calculated by adding the sign-extended 12-bit immediate to the register rs1 and then setting the least-significant bit of the result to zero.
 The address of the instruction following the jump pc+4 is written to the register rd.
 ## Conditional Branches (BEQ, BNE, BLT, BLTU, BGE, BGEU)
-These instructions compare two registers and jump or not depending on the result.
-BEQ and BNE take the branch if registers rs1 and rs2 are equal or unequal respectively.
-BLT and BLTU take the branch if rs1 is less than rs2, using signed and unsigned comparison respectively.
-BGE and BGEU take the branch if rs1 is greater than or equal to rs2, using signed and unsigned comparison respectively.
-Load and Store Instructions
-RISC-V is load-store architecture, where only load and store instructions access memory and arithmetic instructions only operate on CPU registers.
-Loads copy a value from memory to register rd.
-Stores copy the value in register rs2 to memory.
-The effective address of the loads are obtained by adding register rs1 to the sign-extended 12-bit offset.
-The LW instruction loads a 32-bit value from memory into rd.
-LH loads a 16-bit value from memory, then sign-extends to 32-bits before storing in rd.
-LHU loads a 16-bit value from memory but then zero extends to 32-bits before storing in rd.
-LB and LBU are defined analogously for 8-bit values.
+- These instructions compare two registers and jump or not depending on the result.
+- BEQ and BNE take the branch if registers rs1 and rs2 are equal or unequal respectively.
+- BLT and BLTU take the branch if rs1 is less than rs2, using signed and unsigned comparison respectively.
+- BGE and BGEU take the branch if rs1 is greater than or equal to rs2, using signed and unsigned comparison respectively.
+- Load and Store Instructions
+- RISC-V is load-store architecture, where only load and store instructions access memory and arithmetic instructions only operate on CPU registers.
+- Loads copy a value from memory to register rd.
+- Stores copy the value in register rs2 to memory.
+- The effective address of the loads are obtained by adding register rs1 to the sign-extended 12-bit offset.
+- The LW instruction loads a 32-bit value from memory into rd.
+- LH loads a 16-bit value from memory, then sign-extends to 32-bits before storing in rd.
+- LHU loads a 16-bit value from memory but then zero extends to 32-bits before storing in rd.
+- LB and LBU are defined analogously for 8-bit values.
 ## Fence
-Fence instruction is used to order device I/O and memory accesses.
-THIS processor orders the memory load and store instructions strictly so the memory accesses are IN-ORDER.
+- Fence instruction is used to order device I/O and memory accesses.
+- THIS processor orders the memory load and store instructions strictly so the memory accesses are IN-ORDER.
 ## ECALL
 The ECALL instruction is used to make a service request to the execution environment.
 EBREAK
