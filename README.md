@@ -94,7 +94,8 @@ adding pre-decode at the front-end of the processor.
 - Check if instruction is M-extension, I-extension, control transfer, legal instruction, generate operation and immidiate type select signals.
 - Decode load store size and if the operation is signed or unsigned.
 
-### Step5: Immidiate Generation Unit takes the immediate type from the decoder and generates the 32-bit immediate value if the instruction is immediate instruction.
+### Step5: 
+Immidiate Generation Unit takes the immediate type from the decoder and generates the 32-bit immediate value if the instruction is immediate instruction.
 ### Step6: Source Register Value Read (All instructions);
 - Read the rs1 and rs2 values from the Register File
 - Read RAT table to learn if core will take the rs1 and rs2 values from the Register File or ROB.
