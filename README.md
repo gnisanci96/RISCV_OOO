@@ -76,6 +76,24 @@ For REM, the sign of the result equals the sign of the dividend. -For both signe
   <img src="/figures/TLB_L1_L2_addr.png" alt="Description" width="500"/>
 </figure>
 
+# BRANCH PREDICTION 
+
+
+### Branch History Table (2-bit Predictor) 
+- This project implements 2-bit branch predictor for speculative execution of control transfe instructions.
+- Why 2-bit predictor ? 
+  - A 1-bit predictor only remembers the last outcome of a branch (Taken/Not Taken). This causes problems in loops where the branch is mostly Taken, except for the last iteration (causing a misprediction).
+  - A 2-bit predictor helps by allowing the CPU to "hesitate" before changing predictions, reducing mispredictions caused by occasional fluctuations.
+- How 2-bit predictor work ?
+  - Each branch is associated with a 2-bit saturating counter.
+  - The counter is stored in a Branch History Table (BHT), indexed by the branch address (PC).
+  - The 2 bits track the branch's recent behavior, allowing a decision that is more stable than a simple 1-bit predictor.
+
+<figure>
+  <img src="/figures/BHT_2bit_predictor_fsm.png" alt="Description" width="500"/>
+</figure>
+
+
 # Instruction Queue Read / Decode / Renaming Stage
 ### Step1: Instruction Fetch Stage (All instructions)
 
