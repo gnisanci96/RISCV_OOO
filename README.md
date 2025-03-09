@@ -139,7 +139,8 @@ Future WORK: There are multiple algorithms to choose which instruction to send t
 
 - Conditional Branch instruction is read from the instruction queue with the taken/not-taken and target prediction of the instruction.
 ### THE JUMP EXECUTION UNIT.
-- The instruction is sent to the JEU. The JEU is responsible from calculating if the condition of the branch holds or not.
+- The Conditional Branch Instructions(CBI) (BEQ,BNE,BLT,BGE,BLTU,BGEU) are issue to this module to calculate if the branch is taken or not.
+- As explained above, CBIs performs comparison operation between RS1 and RS2.   
 - The JEU writes the instruction to its reservation table and waits for the rs1 and rs2 values to be ready.
 - The JEU waits for the broadcast bus to broadcast rs1 and rs2 values if they are not ready. It uses ROB addreses of the rs1 and rs2 values to check.
 - The JEU writes the ROB address of the branch instruction and taken/not-taken result to its FIFO.
