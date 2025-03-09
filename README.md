@@ -158,7 +158,7 @@ Future WORK: There are multiple algorithms to choose which instruction to send t
 - If all the predictions are correct, the instructions are committed.
 - If at least one of the predictions(target address or taken/not-taken) are wrong, the core control unit sends FLUSH signal to all the units.
 - When Branch Instrunctions commit, there is no register write. So brach instructions are ready as soon as they are written to the ROB.
-- When JUMP instructions are committed, PC+4 are written to the rd reigster. So JUMP instructions wait for the PC+4 to be calculated and broadcasted to be ready in ROB.
+- When JUMP instructions are committed, PC+4 are written to the rd register. So JUMP instructions wait for the PC+4 to be calculated and broadcasted to be ready in ROB.
 # The MODULES:
 1-) Translation Lookaside Buffer(TLB):
 
