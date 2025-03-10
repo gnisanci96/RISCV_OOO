@@ -1,4 +1,4 @@
-# RISCV_OOO
+# RISCV32IM
 This repository contains the design and source code for an Out-of-Order (OOO) RISC-V implementation.
 
 # I-Instructions 
