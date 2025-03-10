@@ -1,4 +1,4 @@
-# RISCV_OOO
+![image](https://github.com/user-attachments/assets/02c5e5ec-8bc7-47ff-a239-047b6feecd35)# RISCV_OOO
 This repository contains the design and source code for an Out-of-Order (OOO) RISC-V implementation.
 
 # I-Instructions 
@@ -77,8 +77,13 @@ For REM, the sign of the result equals the sign of the dividend. -For both signe
 </figure>
 
 # BRANCH PREDICTION 
+### How do branch prediction and Branch Target Buffer help performance of a cpu? 
+- When a branch instruction is fetched, the CPU needs to quickly determine:
+- Will the branch be taken or not? (Handled by branch predictors like 2-bit predictors, TAGE, etc.)
+- If taken, where does it go? (Handled by the BTB).
+- Without a Branch Prediction, the CPU would need to decode the branch instruction and compute the target address, causing a stall. The BTB probabilistically eliminates this delay by caching branch target addresses and taken/not-taken result.
 
-
+## Branch Prediction Modules 
 ### Branch History Table (2-bit Predictor) 
 - This project implements 2-bit branch predictor for speculative execution of control transfe instructions.
 - Why 2-bit predictor ? 
@@ -88,10 +93,35 @@ For REM, the sign of the result equals the sign of the dividend. -For both signe
   - Each branch is associated with a 2-bit saturating counter.
   - The counter is stored in a Branch History Table (BHT), indexed by the branch address (PC).
   - The 2 bits track the branch's recent behavior, allowing a decision that is more stable than a simple 1-bit predictor.
-
+  - The diagram below shows how the 2bit predictor FSM works. 
 <figure>
   <img src="/figures/BHT_2bit_predictor_fsm.png" alt="Description" width="500"/>
 </figure>
+- BHT is designed as a set-associative cache, where the data stored is the 2-bit current FSM value.
+- The BHT is addressed using PC of the instruction. 
+- If there is a hit taken/not-taken prediction is returned.  
+- If there is no-hit, BHT miss is reported to the instruction fetch unit.  
+
+### Branch Target Buffer 
+- A Branch Target Buffer (BTB) is a cache-like structure used in modern CPUs to store branch instruction PC and their predicted target addresses. It helps speed up branch prediction by providing the next instruction’s address before the actual branch instruction is executed.
+- In this project, BTB is designed as a set-associative cache.
+
+### Branch Prediction Flow 
+- Send PC to BHT and BTB and check if there is any prediction or not.
+- If there is a taken prediction, start fetching from the address stored in the BTB
+- If BHT and BTB doesn't hit or If the prediction is not-taken, jump to (PC + 4).
+- If there is a prediction, prediction(target address with taken/not-taken flag) is going to be sent to OOO pipeline through instruction queue with the PC of the instruction. 
+- Branch Target Calculator module is going to calculate the target address(all control transfer instructions) and taken/not-taken result(in case of conditional branches).
+- BRT module is going to compare the predictions with the calculated values.
+- When the ROB Commit pointer points to the Control Transfer Instruction, ROB sends flag to Core Control Unit(CCU) with information about the instruction.
+- If there is a Commit Ready signal, CCU checks if the instruction is control transfer instruction
+- The CCU checks the output of the BRT, which reports miss-prediction result and calculated target.  
+- If there is a Miss-Prediction, CCU performs the following actions;
+  - Flush the Pipeline.
+  - Let the Front End know that Flush occured, what is the flush_pc (Exception PC) and calculated taken/not-taken result of the control transfer instruction.
+- Front end Unit stops fetching and jumps to the Exception PC sent by the CCU.
+- BTB and BHT are then updated with the new information. 
+  
 
 
 # Instruction Queue Read / Decode / Renaming Stage
