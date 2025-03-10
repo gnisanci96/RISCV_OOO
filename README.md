@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/02c5e5ec-8bc7-47ff-a239-047b6feecd35)# RISCV_OOO
+# RISCV_OOO
 This repository contains the design and source code for an Out-of-Order (OOO) RISC-V implementation.
 
 # I-Instructions 
