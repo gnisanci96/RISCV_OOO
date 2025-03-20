@@ -220,10 +220,15 @@ It uses Pseudo-Least Recently Used Algorithm to decide the victim Cache.
 
 ## MUL/DIV Unit 
 
-### MUL 
+### MUL
+
+The multiplication algorithm uses Partial-Sum Aproach to calculate the result sequencially. The waveform below shows the internal signals for the 4-bit version of the multiplication. The CPU uses the 32-bit version of the 
+same module. Since it uses a single adder, calculation takes 32 Clock Cycle to execute. 
+
 <figure>
   <img src="/figures/mul_10x7.png" alt="Description" width="500"/>
 </figure>
+
 
 
 
@@ -237,6 +242,18 @@ It uses Pseudo-Least Recently Used Algorithm to decide the victim Cache.
 <figure>
   <img src="/figures/LRU.png" alt="Description" width="500"/>
 </figure>
+
+Before the unsigned multiplication is performed, algorithm takes the 2's complement of the negative signed numbers and performs unsigned multiplication. 
+For example; 
+- num1= 1011 (signed) --> -5
+- num2= 0111 (signed) -->  7
+- 
+- Take the 2's complement of the num1 --> 2's(1011) = 0101  --> 5 
+- Perform the unsigned multiplication --> 0101x0111 = 0010_0011 --> 35 
+- Result needs to be negative number, therefore 2's(0010_0011) = 1101_1101 --> -35
+
+
+
 
 
 2-) Pseudo Least Recently Used (PLRU) Algorithm: The LRU algoritm assigns log2(WayNumber) bit counters for each line, which is expensive. So we may instead use Pseudo Least Recently Used algorithm to save power and area.
