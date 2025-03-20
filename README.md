@@ -62,7 +62,7 @@ For REM, the sign of the result equals the sign of the dividend. -For both signe
 # Instruction Fetch Stage
 - Instruction Fetch unit is responsible from converting virtual address to physical address, reading instructions from external memory and writing them into the L1,L2 cache, updating the TLB table in case of a page fault, and perform branch prediction using Branch Target Buffer(BTB) and Branch History Table(BHT).
 - The design uses 32-bit virtual address.
-- The design uses Virtually-Indexed-Physically-Tagged (VIPT) Cache. The benefit of VIPT cache is that we can read the tag and data of the L1 cache while reading the physical page number from the TLB table. If we use Physically indexed physically(PIPT) Tagged Cache, L1 cache would need to wait TLB read first and then start reading the tag and data.
+- The design uses Virtually-Indexed-Physically-Tagged (VIPT) Cache. The benefit of VIPT cache is that we can read the tag and data of the L1 cache while reading the physical page number from the TLB table. If we use Physically indexed physically Tagged(PIPT) Cache, L1 cache would need to wait TLB read first and then start reading the tag and data.
 - After reading the TLB and L1 Tag, we can compare the physical TAG and L1 Tag.
 - If Both L1 and L2 have hit, take the instructions from L1 cache and send them into the pipeline, where they will go to instruction queue eventually with their predicted branch target address and predicted taken/not-taken result.
 - If there is no TLB tag that matches the TLB tag of the virtual address, Instruction Fetch Unit generates PAGE FAULT signal and stops instruction fetch until the PAGE FAULT is resolved.
