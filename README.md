@@ -222,7 +222,7 @@ It uses Pseudo-Least Recently Used Algorithm to decide the victim Cache.
 
 ### MUL 
 <figure>
-  <img src="/figures/mul10x7.png" alt="Description" width="500"/>
+  <img src="/figures/mul_10x7.png" alt="Description" width="500"/>
 </figure>
 
 
