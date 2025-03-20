@@ -212,6 +212,24 @@ Future WORK: There are multiple algorithms to choose which instruction to send t
 
 TLB is a fully-associative cache memory that stores the recent virtual to physical memory transitions.
 It uses Pseudo-Least Recently Used Algorithm to decide the victim Cache.
+
+# EXECUTION UNIT 
+
+## ALU 
+
+
+## MUL/DIV Unit 
+
+### MUL 
+<figure>
+  <img src="/figures/mul10x7.png" alt="Description" width="500"/>
+</figure>
+
+
+
+
+
+
 # The Algorithms:
 
 1-) Least Recently Used Algorithm: The algorithm is used as a cache replacement and access grant algorithm in this project. In a 4-way set associative cache, we assign initial number so lines from 0 to 3. The line with number 0 is the least recently accessed line and line with number 3 is the most recently accessed line. So when we have to choose a valid line to replace, we choose the line that is least recently used. Everytime we access a cache line, we update its number to highest available number(3 in this case) and update the number of other lines accordingly. The figure below shows how to update the LRU counters.
