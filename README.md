@@ -230,6 +230,23 @@ same module. Since it uses a single adder, calculation takes 32 Clock Cycle to e
   <img src="/figures/mul_10x7.png" alt="Description" width="500"/>
 </figure>
 
+### DIV 
+
+The division uses the common registers and addition unit with the multiplication unit. 
+
+
+The figures below show the division operation (101000/000011) = 001101 with REM=1
+<figure>
+  <img src="/figures/div_0.png" alt="Description" width="500"/>
+</figure>
+
+<figure>
+  <img src="/figures/div_1.png" alt="Description" width="500"/>
+</figure>
+
+<figure>
+  <img src="/figures/div_2.png" alt="Description" width="500"/>
+</figure>
 
 Before the unsigned multiplication is performed, algorithm takes the 2's complement of the negative signed numbers and performs unsigned multiplication. 
 For example; 
