@@ -158,6 +158,7 @@ Immidiate Generation Unit takes the immediate type from the decoder and generate
 - Every instruction is written to the ROB and assigned a unique ROB address, which serves as its identification number throughout its lifecycle.
 
 ### Step8: Write instruction to the Reservation Station (For ALU instruction)
+- This design uses Distributed reservation station, which means that, every execuion unit has its own local resercation station.
 - The Reservation station stores ALU opcode, rs1, rs2 values, their valid signals and ROB address for the instruction and ROB address for the rs1, rs2 values.
 - If rs1 or rs2 values of the instruction are not ready, reservation station wait for the value(s) to be brodcasted. So everytime there is a broadcast on the data bus, it compares the ROB address of the brodcasted value with the ROB address of the rs1 and rs2 values stored. If there is a match, it stores the value and sets the valid bit of the matching rs1 or rs2.
 - If the rs1 and rs2 values of the instruction are ready and the ALU control unit is not busy, the instruction is sent to the ALU control unit, which will perform the execution. This step is called DISPATCH.
