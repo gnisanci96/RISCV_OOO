@@ -230,6 +230,14 @@ same module. Since it uses a single adder, calculation takes 32 Clock Cycle to e
   <img src="/figures/mul_10x7.png" alt="Description" width="500"/>
 </figure>
 
+
+<figure>
+  <img src="/figures/mul_0.png" alt="Description" width="500"/>
+</figure>
+
+<figure>
+  <img src="/figures/mul_1.png" alt="Description" width="500"/>
+</figure>
 ### DIV 
 
 The division uses the common registers and addition unit with the multiplication unit. 
