@@ -217,7 +217,7 @@ It uses Pseudo-Least Recently Used Algorithm to decide the victim Cache.
 # EXECUTION UNIT 
 
 ## ALU 
-
+ Without any timing concern, this project uses a single-CC ALU with parameterizable CC delay to create more interesting OoO operations.  
 
 ## MUL/DIV Unit 
 
