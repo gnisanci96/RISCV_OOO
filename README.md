@@ -230,6 +230,16 @@ same module. Since it uses a single adder, calculation takes 32 Clock Cycle to e
   <img src="/figures/mul_10x7.png" alt="Description" width="500"/>
 </figure>
 
+Before the unsigned multiplication is performed, algorithm takes the 2's complement of the negative signed numbers and performs unsigned multiplication. 
+For example; 
+- num1= 1011 (signed) --> -5
+- num2= 0111 (signed) -->  7
+- 
+- Take the 2's complement of the num1 --> 2's(1011) = 0101  --> 5 
+- Perform the unsigned multiplication --> 0101x0111 = 0010_0011 --> 35 
+- Result needs to be negative number, therefore 2's(0010_0011) = 1101_1101 --> -35
+
+- The figures below show how the hardware performs the multiplication of 2 unsigned numbers. 
 
 <figure>
   <img src="/figures/mul_0.png" alt="Description" width="500"/>
@@ -256,14 +266,6 @@ The figures below show the division operation (101000/000011) = 001101 with REM=
   <img src="/figures/div_2.png" alt="Description" width="500"/>
 </figure>
 
-Before the unsigned multiplication is performed, algorithm takes the 2's complement of the negative signed numbers and performs unsigned multiplication. 
-For example; 
-- num1= 1011 (signed) --> -5
-- num2= 0111 (signed) -->  7
-- 
-- Take the 2's complement of the num1 --> 2's(1011) = 0101  --> 5 
-- Perform the unsigned multiplication --> 0101x0111 = 0010_0011 --> 35 
-- Result needs to be negative number, therefore 2's(0010_0011) = 1101_1101 --> -35
 
 
 # The Algorithms:
