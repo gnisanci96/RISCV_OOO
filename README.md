@@ -74,7 +74,7 @@ For REM, the sign of the result equals the sign of the dividend. -For both signe
    - Then update the TLB with the conversion, generate the pysical address, perform the L1 Tag check and continue the fetch process.
 
 <figure>
-  <img src="/figures/TLB_L1_L2_addr.png" alt="Description" width="500"/>
+  <img src="/figures/Front_end_block_diagram.png" alt="Description" width="500"/>
 </figure>
 
 # BRANCH PREDICTION 
