@@ -29,7 +29,7 @@ The address of the instruction following the jump pc+4 is written to the registe
 - BEQ and BNE take the branch if registers rs1 and rs2 are equal or unequal respectively.
 - BLT and BLTU take the branch if rs1 is less than rs2, using signed and unsigned comparison respectively.
 - BGE and BGEU take the branch if rs1 is greater than or equal to rs2, using signed and unsigned comparison respectively.
-- Load and Store Instructions
+## Load and Store Instructions
 - RISC-V is load-store architecture, where only load and store instructions access memory and arithmetic instructions only operate on CPU registers.
 - Loads copy a value from memory to register rd.
 - Stores copy the value in register rs2 to memory.
