@@ -25,6 +25,7 @@ Unconditional Jump instruction.
 Target address is calculated by adding the sign-extended 12-bit immediate to the register rs1 and then setting the least-significant bit of the result to zero.
 The address of the instruction following the jump pc+4 is written to the register rd.
 ## Conditional Branches (BEQ, BNE, BLT, BLTU, BGE, BGEU)
+- Target Address=PC+Sign-Extended Immediate
 - These instructions compare two registers and jump or not, depending on the result.
 - BEQ and BNE take the branch if registers rs1 and rs2 are equal or unequal respectively.
 - BLT and BLTU take the branch if rs1 is less than rs2, using signed and unsigned comparison respectively.
