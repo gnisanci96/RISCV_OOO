@@ -191,25 +191,43 @@ Future WORK: There are multiple algorithms to choose which instruction to send t
 - Conditional Branch instruction is read from the instruction queue with the taken/not-taken and target prediction of the instruction.
 ### THE JUMP EXECUTION UNIT.
 - The Conditional Branch Instructions(CBI) (BEQ,BNE,BLT,BGE,BLTU,BGEU) are issue to this module to calculate if the branch is taken or not.
-- As explained above, CBIs performs comparison operation between RS1 and RS2.   
+- As explained above, CBIs perform comparison operation between RS1 and RS2.   
 - The JEU writes the instruction to its reservation table and waits for the rs1 and rs2 values to be ready.
 - The JEU waits for the broadcast bus to broadcast rs1 and rs2 values if they are not ready. It uses ROB addreses of the rs1 and rs2 values to check.
 - The JEU writes the ROB address of the branch instruction and taken/not-taken result to its FIFO.
-- The JEU connects outputs of the FIFO(taken/non-taken bit, ROB addr, fifo empty ) to its own output.
+- The JEU connects outputs of the FIFO(taken/non-taken bit, ROB addr, fifo empty ) to BRT. 
+- JEU calculates the taken/not taken prediction Out of Order. 
 ### The Branch Target Calculator(BTC).
 - All the control transfer instructions are written to the BTC unit, where the target address of the instructions are calculated.
-- The target address of the instuctions are calculated and written to a FIFO with ROB address of the instruction.
-### The BRT table.
-- The BRT table collects the taken/not-taken and target address information of the control transfer instructions and stores them until commit.
-- The BRT talbe reads the taken/not-taken information from the JEU.
-- The BRT table reads the target address from the BTC unit.
+- BTC checks the broadcast bus, checks all the source operands waiting for data and if there is maching source, reads the broadcasted data. 
+- When the operands of a Jump/branch instruction is ready, the target address is calculated and written to a FIFO. 
+- When there is a value in the FIFO, it outputs "Fifo not-empty" signal for BRT table to read the FIFO.
+- BTC calculates the target address Out-of-Order. 
+### The Branch Retirement Table(BRT).
+- Same as BTC, all the control transfer instructions are written to the BRT unit ,aswell.
+- BRT stores the Instructions in program order. BRT has a issue and commit pointers.  
+- The BRT collects the taken/not-taken and target address information of the control transfer instructions and stores them until commit.
+- The BRT reads the target address from the BTC unit. When the BTC FIFO has a calculated target address, BRT reads the value and update the control transfer instruction that matches the ROB at the BTC FIFO. 
 - BRT table gets the predicted taken/not-taken result for branch instructions and predicted target address for all the branch instructions from instruction queue.
 - When ROB points to a control transfer instruction(CTI), Core Control Unit sends commit signal with a ROB address to check if the CTI is ready to be committed.
-- When the CTI is ready(target address and taken/not-taken) for the instruction with ROB sent from CCU, CTI responses with the comparison between predicted values and the calculated values.
-- If all the predictions are correct, the instructions are committed.
-- If at least one of the predictions(target address or taken/not-taken) are wrong, the core control unit sends FLUSH signal to all the units.
-- When Branch Instrunctions commit, there is no register write. So brach instructions are ready as soon as they are written to the ROB.
-- When JUMP instructions are committed, PC+4 are written to the rd register. So JUMP instructions wait for the PC+4 to be calculated and broadcasted to be ready in ROB.
+- BRT COMMIT:
+   - When the CTI is ready(target address and taken/not-taken) for the instruction with ROB sent from CCU, CTI responses with the comparison between predicted values and the calculated values.
+   - If all the predictions are correct, the instructions are committed.
+   - If at least one of the predictions(target address or taken/not-taken) are wrong, the core control unit sends FLUSH signal to all the units.
+   - When Branch Instrunctions commit, there is no register write. So brach instructions are ready as soon as they are written to the ROB.
+   - When JUMP instructions are committed, PC+4 are written to the rd register. So JUMP instructions wait for the PC+4 to be calculated and broadcasted to be ready in ROB.
+- The BRT table content;
+   - VALID
+   - ROB Addr
+   - Calculated Target
+   - Calculated Target Valid
+   - Predicted Target
+   - Taken Calculated
+   - Taken Calculated Valid 
+   - Taken Predicted
+   - PC + 4
+   - PC
+   - READY
 # The MODULES:
 1-) Translation Lookaside Buffer(TLB):
 
