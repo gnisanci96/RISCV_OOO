@@ -304,3 +304,92 @@ If all the bits becomes 1, we leave the last set bit as 1 and convert the other 
 <figure>
   <img src="/figures/PLRU.png" alt="Description" width="500"/>
 </figure>
+
+# FUTURE WORK 
+
+## **Perceptron Branch Predictor **
+
+It’s a neural-inspired predictor that uses a perceptron — a simple type of neural network — to predict whether a branch is taken or not taken, based on global branch history.
+
+### Prediction Formula: 
+y = w₀ + w₁·x₁ + w₂·x₂ + ... + wₙ·xₙ
+  - x₁ ... xₙ are bits from the global branch history register (GHR), encoded as +1 (taken) or -1 (not taken).
+  - w₀ is a bias weight.
+  - w₁ ... wₙ are weights associated with each history bit.
+  - y is the prediction score.
+    
+### Final Prediction: 
+  - If y ≥ 0 → predict taken
+  - If y < 0 → predict not taken
+
+## Hardware Implementation 
+
+### Prediction 
+1. Global History Register (GHR)
+Stores the last N branch outcomes (e.g., 32 or 64 bits).
+Each bit is mapped to +1 or -1.
+
+2. Perceptron Table
+A table of weight vectors.
+Indexed using some hash of the PC (or PC + GHR).
+Each entry stores: w₀, w₁, ..., wₙ.
+
+3. Dot Product Logic
+  y = w₀ + Σ(wᵢ * xᵢ) 
+This dot product is easily implemented in hardware using:
+  - Adders
+  - Small multipliers (since xᵢ ∈ {+1, -1}, multiplication is just negation or passthrough)
+    
+4. Prediction Output
+  - Compare y to 0 → decide Taken or Not Taken.
+
+### Training 
+
+After the actual branch outcome is known, the perceptron is updated if the prediction was wrong or not confident: 
+
+**Training Formula:** 
+--------------------------------------------
+For i = 0 to n:
+    wᵢ = wᵢ + actual_outcome × xᵢ
+--------------------------------------------
+**Where: **
+  - actual_outcome = +1 (taken), -1 (not taken)
+
+**Perceptron Branch Prediction Example: **
+1. PREDICTION --> Given the PC and GHR, make a prediction. 
+GHR:       T  T  N  T  N   →   [+1, +1, -1, +1, -1]
+Weights:   PBP_MEM[hash(PC+GHR)] --> [ 2, -1, 3, 1, -2 ]
+Bias:       1
+
+Dot product: y = 1 + (2×1) + (-1×1) + (3×-1) + (1×1) + (-2×-1)
+            = 1 + 2 -1 -3 +1 +2 = 2 → Predict TAKEN
+
+2. TRAINING --> Get the Actual Taken/Not-Taken prediction and train the weights. 
+Actual Outcome: NOT-TAKEN = -1
+-------------------------------------------
+Training Formula: 
+-------------------------------------------
+For all i:
+    - wᵢ ← wᵢ + (Outcome × xᵢ)
+    - w₀ ← w₀ + Outcome
+
+-------------------------------------------
+New w₀ = 1 + (-1) = 0
+
+Now update weights:
+
+- w₁ =  2 + (-1 × +1) =  1
+- w₂ = -1 + (-1 × +1) = -2
+- w₃ =  3 + (-1 × -1) =  4
+- w₄ =  1 + (-1 × +1) =  0
+- w₅ = -2 + (-1 × -1) = -1
+-------------------------------------------
+So the weights are updated 
+from: 
+   - w₀ = 1 
+   - w  = [ 2, -1, 3, 1, -2 ]
+to:
+   - w₀ = 0
+   - w  = [1, -2, 4, 0, -1]
+
+
