@@ -369,9 +369,9 @@ Actual Outcome: NOT-TAKEN = -1
 -------------------------------------------
 Training Formula: 
 -------------------------------------------
-For all i:
-    - wᵢ ← wᵢ + (Outcome × xᵢ)
-    - w₀ ← w₀ + Outcome
+For all i:  
+    - wᵢ ← wᵢ + (Outcome × xᵢ)  
+    - w₀ ← w₀ + Outcome  
 
 -------------------------------------------
 New w₀ = 1 + (-1) = 0
@@ -391,5 +391,20 @@ from:
 to:
    - w₀ = 0
    - w  = [1, -2, 4, 0, -1]
+
+
+## **TAGE (TAgged GEometric branch predictor) Branch Predictor**
+
+High Level Idea:   
+TAGE uses multiple prediction tables, each indexed with different history lengths, and selects the one with the best match to make a prediction.  
+
+<figure>
+  <img src="/figures/TAGE_diagram.png" alt="The TAGE Predictor with N Tagged Tables" width="500"/>
+  <figcaption>
+    <strong>Figure 1:</strong> The TAGE Predictor with N Tagged Tables.  
+    <em>Image credit: <a href="https://www.researchgate.net/profile/Kaveh-Aasaraai/publication/254023355_Toward_virtualizing_branch_direction_prediction/links/54ab10410cf25c4c472f72d2/Toward-virtualizing-branch-direction-prediction.pdf" target="_blank" rel="noopener noreferrer">Aasaraai et al., 2012</a></em>
+  </figcaption>
+</figure>
+
 
 
