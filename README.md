@@ -407,4 +407,46 @@ TAGE uses multiple prediction tables, each indexed with different history length
 </figure>
 
 
+---------------------------------------------------------------------------------------------
+What is Folding ? 
+---------------------------------------------------------------------------------------------
+- In TAGE, some predictor tables use very long histories (e.g. 96, 128, or 256 bits). But we can’t index a table with a 256-bit number — that’s way too large.
+- So, we fold the long history into a shorter fixed-size index, usually using XOR and shifts. This reduces hardware cost while keeping important correlation info.
+
+Example: 
+   - History = 1011_0010_1001_1100 (16 bits)
+   - We want 4-bit index. 
+   - result = 1011 ⊕ 0010 ⊕ 1001 ⊕ 1100 = 1100
+
+- It is used to create tag and index in TAGE 
+
+ - TAGE often uses rotating XORs or Galois LFSRs to get better entropy and fewer collisions:
+ - folded = folded ^ rotate_left(history[i +: N], i);
+
+---------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------
+What are the usefulness bits ? 
+---------------------------------------------------------------------------------------------
+Each entry in the tagged tables of TAGE has an associated u-bit (usually 1 or 2 bits).   
+Purpose:   
+  - Track whether a prediction from that entry has been useful recently
+  - Help decide whether to retain or evict the entry when allocating new predictions
+
+When to increment the u-bit (entry becomes more useful): 
+   - The entry made a correct prediction and alternate prediction (from shorter history) was wrong  --> This entry did something unique and helpful 
+When to decrement the u-bit (entry becomes less useful):
+   - The entry made a wrong prediction OR the alternate predictor was also correct
+   - to periodically to age out old entries (Every N cycles, Half of the u-bits are decremented) 
+
+Example: 
+  - T2 predicted, and it was wrong
+  - T3 didn’t have a match so we want to allocate a new entry in T3
+  - We look for u = 0 entries in T3
+      - if found, replace one entry.
+      - If none have u = 0 → we do not allocate, to avoid evicting useful data. 
+---------------------------------------------------------------------------------------------
+
+
+
 
