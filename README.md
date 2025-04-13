@@ -483,6 +483,24 @@ Example:
       - No entry is ever replaced unless its u-bit = 0 (or aged to 0)
 ---------------------------------------------------------------------------------------------
 
+## Basic Hybrid Design: TAGE + Perceptron
 
+**Hybrid Predictor Logic:**
+**1. Run both predictors in parallel**
+- TAGE computes a prediction (taken/not taken) and confidence (e.g., counter strength)   
+- Perceptron computes its output from dot product:  
+  output = bias + Σ(w[i] * h[i]), where h[i] ∈ {-1, +1}  
 
+**2. Select predictor dynamically**
+  - We now need a meta-predictor (selector) to decide which prediction to trust.
 
+**A. Confidence-based:**
+   - If Perceptron's absolute dot-product is high (above a certain threshold) → trust it
+   - Else → use TAGE
+
+**B. Meta-predictor table:**
+  - Use a small 2-bit counter indexed by PC or GHR to learn which predictor is better.   
+  - If TAGE correct and perceptron wrong → decrement counter (bias toward TAGE) and vice versa for perceptron.   
+
+**3. Update both predictors**
+Even if one wasn't chosen, both should train on the correct outcome to improve.   
