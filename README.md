@@ -407,6 +407,41 @@ TAGE uses multiple prediction tables, each indexed with different history length
 </figure>
 
 
+### Prediction 
+
+
+### Update Policy 
+The update policy in TAGE controls:  
+  - Which predictor entry gets updated ? (provider, alternate)   
+  - How to update the counters ?   
+  - When and where to allocate a new entry ?   
+  - How to update the usefulness bits ? (u-bits)   
+These updates happen after the branch resolves in the pipeline   
+
+
+**Provider:** The table (Tn) that made the longest-match prediction   
+**AltPred:**  The next best matching table (shorter history) or base predictor   
+**Alloc:**   	When we insert a new entry in a longer table after misprediction   
+**u-bit:**	  Usefulness bit, tracks how helpful an entry has been   
+
+
+**1. Counter Update Policy**
+   - If prediction was correct:
+       a. Increment the saturating counter in the provider
+   - If prediction was wrong:
+       b. Decrement the counter in the provider  
+
+**2. Usefulness Bit Update**
+   - If Provider Was Correct and AltPred was Wrong:
+       a. Increment u-bit → this provider was uniquely helpful
+   - If Provider Was Wrong OR AltPred Was Also Correct:
+       a. Decrement u-bit → provider was wrong or redundant
+       
+** 3. Allocation Policy (on Mispredict)**
+  - When a misprediction occurs and a longer-history table does not have a matching entry, we try to allocate one.
+  - We only allocate if There is at least one u = 0 entry in a longer table
+
+ ** Sometimes, we update the alternate predictor too, if the provider’s prediction was weak (i.e., saturating counter near center) or wrong. This keeps the backup predictor learning in parallel.
 ---------------------------------------------------------------------------------------------
 What is Folding ? 
 ---------------------------------------------------------------------------------------------
@@ -444,7 +479,8 @@ Example:
   - T3 didn’t have a match so we want to allocate a new entry in T3
   - We look for u = 0 entries in T3
       - if found, replace one entry.
-      - If none have u = 0 → we do not allocate, to avoid evicting useful data. 
+      - If none have u = 0 → we do not allocate, to avoid evicting useful data.
+      - No entry is ever replaced unless its u-bit = 0 (or aged to 0)
 ---------------------------------------------------------------------------------------------
 
 
